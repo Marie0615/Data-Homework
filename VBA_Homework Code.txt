@@ -1,0 +1,69 @@
+Sub TotalVolumeAmount()
+
+'This instruction will loop through all sheets
+For Each ws In Worksheets
+
+'Insert Ticker
+ws.Cells(1, 9).Value = "Ticker"
+
+'Insert Total Stock Volume
+ws.Cells(1, 10).Value = "Total Stock Volume"
+
+'Define the Variable for Ticker
+Dim TickerType As String
+
+'Define variable to Total Volume Amount
+Dim TotalVolumeAmount As Double
+
+TotalVolumeAmount = 0
+
+'Determine the last Row of each worksheet
+LastRow = ws.Cells(Rows.Count, 1).End(xlUp).Row
+
+'Location for each ticker type in table
+Dim Summary_Table_Row As Integer
+  Summary_Table_Row = 2
+
+ 'Loop through all stocks
+  For i = 2 To LastRow
+  
+'Check if we are still within the same ticker
+
+    If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then
+    
+'Set the ticker type
+
+        TickerType = ws.Cells(i, 1).Value
+
+'Add the Total Volume Amount
+
+TotalVolumeAmount = TotalVolumeAmount + ws.Cells(i, 7).Value
+
+'Print Ticker info in Summary Table
+ws.Range("I" & Summary_Table_Row).Value = TickerType
+
+'Print Total Volume Amount in Summary Table
+ws.Range("J" & Summary_Table_Row).Value = TotalVolumeAmount
+
+' Add one to the summary table row
+      Summary_Table_Row = Summary_Table_Row + 1
+      
+'Reset the Ticker
+TotalVolumeAmount = 0
+
+'if the cell immediately following a row if the same
+
+Else
+'Add the total
+
+TotalVolumeAmount = TotalVolumeAmount + ws.Cells(i, 7).Value
+
+End If
+
+    Next i
+
+        Next ws
+    
+
+
+End Sub
